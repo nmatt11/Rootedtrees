@@ -1,4 +1,21 @@
+""""
+rootedtrees is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General
+Public License for more details.
+You should have received a copy of the GNU General Public License along
+with planarforest. If not, see <http://www.gnu.org/licenses/>.
 
+:Main author: Håkon Marthinsen
+:Date: 2014-03-18
+:Version: 4
+:Contact: hakon.marthinsen@gmail.com
+
+:Adaption author: Nicky Cordua Mattsson
+:Date: 2015-12-18
+:Version: 1
+:Contact: nicky_mattsson@yahoo.dk
+"""
 
 # -*- coding: utf-8 -*-
 
