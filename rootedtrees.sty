@@ -3,7 +3,7 @@
 \RequirePackage{tikz}
 \RequirePackage{pythontex}
 
-%%ROOTEDTREES IS A STYLE THAT AUTOMATICALLY GENERATE A TREE FROM ITS BUTHER NOTATION.
+%%ROOTEDTREES IS A STYLE THAT AUTOMATICALLY GENERATE A TREE FROM ITS BUTCHER NOTATION.
 %%USE EITHER A LETTER TO PUT A COLOR ON THE NODE OR A NUMBER TO SET A LABEL ON IT - BOTH IS NOT POSSIBLE.
 %%
 %%ROOTEDTREES, THE STYLE AND PYTHON CODE, IS AN ADAPTION OF THE STYLE AND PYTHON CODE PLANARFOREST 
@@ -18,6 +18,17 @@
 %%
 %%[1] http://hakonmath.blogspot.no/2014/03/drawing-planar-forests-in-latex.html
 
+%%:Main author: Håkon Marthinsen
+%%:Date: 2014-03-18
+%%:Version: 4
+%%:Contact: hakon.marthinsen@gmail.com
+
+%%:Adaption author: Nicky Cordua Mattsson
+%%:Date: 2015-12-18
+%%:Version: 2
+%%:Contact: nicky_mattsson@yahoo.dk
+
+
 \tikzstyle planar forest=[scale=1, sibling distance=0, level distance=0, semithick]
 \tikzstyle planar forest node=[scale=1, shape=circle, semithick, draw]
 
@@ -26,11 +37,16 @@
 \tikzstyle w=[style=planar forest node, fill=white]
 
 \begin{pycode}
+import sys
+sys.path.append('/Users/Mattsson/Dropbox/LaTeX/rootedtrees/Rootedtrees')
 import rootedtrees as pf
 \end{pycode}
 
 \newcommand{\rootedtree}[1]{\py{pf.generate_forest("#1")}}
-
+\newcommand{\rootedtreesize}[1]{
+\tikzstyle planar forest=[scale=#1, sibling distance=0, level distance=0, semithick]
+\tikzstyle every node=[scale=#1]
+}
 \newcommand{\newnodecolor}[2]{\tikzstyle #1=[style=planar forest node, fill=#2]}
 
 \endinput

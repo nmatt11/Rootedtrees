@@ -1,0 +1,124 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{luainputenc}
+\usepackage[danish]{babel}
+\usepackage{amsmath}
+\usepackage{rootedtrees}
+\usepackage{listings}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+\author{Nicky Mattsson}
+\title{Introduction to Rootedtree package \\$\backslash usepackage\{ rootedtrees\}$}
+\begin{document}
+\maketitle
+\newpage
+\section{Introduction}
+The rootedtree package is a package for TeX, which can generate a rooted tree from the notation originally used by J. Butcher when he described the order conditions for Runge-Kutta schemes, and E. Hairer, G. Wanner, C. Lubich and S. Nørsett in their book compilation. 
+
+\section{How to install}
+You can \glqq install\grqq the package in two ways. The easiest is to put the two files, the python script and the style file, in the same folder as your tex document. This will require you to always copy the two files around.
+
+Alternatively you can put it in the search path of your TeX distribution. This way you can always use the functions without having to move the files around. There is however different approaches depending on your OS
+
+\subsection{Windows}
+If you are Windows there should be an installer with your TeX distribution, which you can use to install the style file. Once you have installed the style file, you have to move the python file to the same location. When you have moved the python file to the same location as style file open the style file and add the following 2 lines of code (The line above and below are also shown):
+\begin{lstlisting}[language={TeX}]
+\begin{pycode}
+import sys
+sys.path.append('CURRENT FOLDER')
+import rootedtrees as pf
+\end{lstlisting}
+where \glqq CURRENT FOLDER\grqq is the folder you are in. This will make sure that the style file can find the python file.
+
+\subsection{Unix (Mac or Linux)}
+If you are using Mac or Linux type the following into your terminal:
+\begin{lstlisting}[language={bash}]
+kpsewhich -var-value=TEXMFHOME
+\end{lstlisting}
+this will give you the search path of your TeX distribution. Mine shows:
+\begin{lstlisting}[language={bash}]
+/Users/Mattsson/Library/texmf
+\end{lstlisting}
+Now create subfolders of texmf corresponding to the tree structure:\footnote{You can use the command cd to change directory and mkdir to make a new directory. }
+\begin{lstlisting}[language={bash}]
+tex/latex/rootedtrees
+\end{lstlisting}
+if you have installed packages before the two first already exist. I do now have a path like:
+\begin{lstlisting}[language={bash}]
+/Users/Mattsson/Library/texmf/tex/latex/rootedtrees
+\end{lstlisting}
+In this folder, rootedtrees, you now put the two files. Now whenever you use the package it will find the style file. There is however one last change. Open the style file and add the following 2 lines of code (The line above and below are also shown):
+\begin{lstlisting}[language={TeX}]
+\begin{pycode}
+import sys
+sys.path.append('CURRENT FOLDER')
+import rootedtrees as pf
+\end{lstlisting}
+where \glqq CURRENT FOLDER\grqq is the folder you are in. This will make sure that the style file can find the python file.
+
+\newpage
+\section{How to use}
+\subsection{Commands}
+The package introduces 3 new commands:
+\begin{itemize}
+\item 
+\begin{lstlisting}  
+\rootedtree{} 
+\end{lstlisting}
+
+This function is the main function. It takes a single input, the tree in Butcher notation and automatically creates the TikZ code needed to draw the tree.
+\item 
+\begin{lstlisting}[language={TeX}]  
+\newnodecolor{}{}
+\end{lstlisting}
+
+This function allows you to define new colors. The two standard colors are b (black) and w (white). The first argument in the name (e.g. b) and the second argument is the color written as you would have done in TikZ. 
+\item 
+\begin{lstlisting}[language={TeX}]  
+\rootedtreesize{}
+\end{lstlisting}
+
+This function allows you to scale the trees to fit the purpose. The function should be used before the trees which should take effect. Note two things: The authors of TikZ are thinks it is a bad idea to scale pictures. Secondly, this function scales all nodes, so the text can fit in the tree - which means that the usage should always finish with 
+\begin{lstlisting}[language={TeX}]
+\rootedtreesize{1}.
+\end{lstlisting}
+Otherwise it will change other TikZ drawings coming after this one.
+\end{itemize}
+
+\subsection{Compile}
+The package needs pythontex, which can be downloaded from CTAN, however if you are using TeXLive and it is newer then 2013 you should already have it. Also to be able to draw the trees you will need to have TikZ, to avoid strange errors from TeX you should include TikZ \textbf{after} the rootedtree in the preamble. The compilation happens as follows:
+\begin{enumerate}
+\item pdflatex
+\item pythontex
+\item pdflatex
+\end{enumerate}
+where pdflatex also could be other compilations. The package have been checked with PDFLaTeX and LuaLaTeX.
+
+\subsection{Examples}
+Per standard are two colors and all single digit number available. Using the standard black, then the single node with look like: \rootedtree{b}. This is a perfect size for standard drawings, but for inline we will scale it down to 0.3: \rootedtreesize{0.3} \rootedtree{b} \rootedtreesize{1}
+
+If we want to draw a bit bigger trees, we can also do so:
+
+\begin{center}
+\rootedtree{b[b[b[b,b],b[b,b],b[b,b,b]]]}  \rootedtreesize{0.5} \rootedtree{b[b[b[b,b],b[b,b],b[b,b,b]]]}  \rootedtreesize{1}
+\end{center}
+
+This package does also have support for multiple colors (all those TikZ knows of) and single digit number ($\{1,2,3,4,5,6,7,8,9\}$), but not together on the same node - either numbers or colors, but you can make a tree where some nodes are numbered and some are coloured. To use number just write the number as you would have written the color:
+
+\begin{center}
+\rootedtree{1[2[2[2,2],1[1,1],3[2,3,2]]]}  \rootedtreesize{0.5} \rootedtree{1[2[2[2,2],1[1,1],3[2,3,2]]]}  \rootedtreesize{1}
+\end{center}
+
+In order to use different colors, first define a color using a single letter, for instance we can set the letter $r$ to be red, \newnodecolor{r}{red} then combine black, white and red nodes:
+
+\begin{center}
+\rootedtree{b[r[r[r,r],b[b,b],w[r,w,r]]]}  \rootedtreesize{0.5} \rootedtree{b[r[r[r,r],b[b,b],w[r,w,r]]]}   \rootedtreesize{1}
+\end{center}
+
+Finally if we like, we can put numbers on the black nodes:
+\begin{center}
+\rootedtree{1[r[r[r,r],2[1,1],w[r,w,r]]]}  \rootedtreesize{0.5} \rootedtree{1[r[r[r,r],2[1,1],w[r,w,r]]]}   \rootedtreesize{1}
+\end{center}
+\end{document}
